@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateUsersTable extends Migration
 {
@@ -13,14 +14,23 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('users')){
+            DB::statement('CREATE TABLE `users` (
+                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                 `name` varchar(30)  NOT NULL,
+                 `username` varchar(30)  NOT NULL,
+                 brithday date NOT NULL,
+                 `email` varchar(30) UNIQUE NOT NULL,
+                 `password` varchar(30) NOT NULL,
+                 `remember_token` varchar(100) DEFAULT NULL,
+                 `created_at` timestamp NULL DEFAULT NULL,
+                 `updated_at` timestamp NULL DEFAULT NULL,
+                 PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+
+        }
+
+
     }
 
     /**
